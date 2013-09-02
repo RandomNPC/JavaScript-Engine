@@ -3,6 +3,9 @@
 
 	The Entity class handles handles objects that might be
 		considered physical objects.
+
+	There can be multiple textures on the entity.  This allows
+		for layering textures.
 */
 
 var g_pxm=32; // Global definition of a meter
