@@ -4,7 +4,7 @@
 var g_fpsEngine=60; // FPS that the processing engine is set to [it affects the texture FPS]
 var g_fpsTexture=60; // Global FPS that all textures default to
 
-var Texture=function(id) {
+var Texture=function(id, tileSize) { // 2 overloads
 	/*
 			Public vars
 	*/
@@ -50,11 +50,21 @@ var Texture=function(id) {
 	/*
 			Public methods
 	*/
-	this.Texture=function(id) { // Constructor
+	this.Texture=function(id, tileSize) { // Constructor; 1 overload
 		if(id==undefined) { // DEBUG
 			console.log('Texture() :: No ID given, not constructing'); // DEBUG
 			return;          // DEBUG
 		}                   // DEBUG
+		// DEBUG
+		if(tileSize!=undefined) { // Texture(id, tileSize)
+			if(typeof tileSize!='object') throw (this.id+'": Texture(ctx, tileSize) tileSize must take an XY struct'); // DEBUG
+			if(typeof tileSize.x!='number') throw (this.id+'": Texture(ctx, tileSize) parameter "tileSize.x" must be a number; got a typeof('+tileSize.x+')=='+typeof tileSize.x); // DEBUG
+			if(typeof tileSize.y!='number') throw (this.id+'": Texture(ctx, tileSize) parameter "tileSize.y" must be a number; got a typeof('+tileSize.y+')=='+typeof tileSize.y); // DEBUG
+			//DEBUG
+			this.tileSize.x=tileSize.x;
+			this.tileSize.y=tileSize.y;
+		} // else, Texture(id)
+
 		this.id=id;
 		this.img=document.getElementById(id);
 
@@ -72,6 +82,7 @@ var Texture=function(id) {
 		// Detect dimensions
 		if(typeof this.img.width!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
 		if(typeof this.img.width!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
+		// DEBUG
 		this.size.x=this.img.width;
 		this.size.y=this.img.height;
 
@@ -136,5 +147,5 @@ var Texture=function(id) {
 
 
 	// Constructor
-	this.Texture(id);
+	this.Texture(id, tileSize);
 };
