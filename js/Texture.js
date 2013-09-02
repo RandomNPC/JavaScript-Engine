@@ -33,7 +33,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this.img=null;
 
 	this.size={ x: 0, y: 0 }; // Size of image
-	this.mid={ x: 0, y: 0 }; // Mid point of the texture to center on when drawn
+	this.mid={ x: undefined, y: undefined }; // Mid point of the texture to center on when drawn
 
 	// Tile size [default: size of image]
 	// Setting it will allow for animated textures
@@ -134,8 +134,8 @@ var Texture=function(id, tileSize) { // 2 overloads
 			console.log('Texture('+this.id+') :: Loaded static texture'); // DEBUG
 		}
 
-		this.mid.x=this.tileSize.x/2;
-		this.mid.y=this.tileSize.y/2;
+		if(this.mid.x==undefined) this.mid.x=this.tileSize.x/2;
+		if(this.mid.y==undefined) this.mid.y=this.tileSize.y/2;
 	}
 
 	// Set/Get FPS
