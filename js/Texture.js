@@ -10,7 +10,7 @@
 */
 
 var g_fpsEngine=60; // FPS that the processing engine is set to [it affects the texture FPS]
-var g_fpsTexture=60; // Global FPS that all textures default to
+var g_fpsTexture=16; // Global FPS that all textures default to
 
 var Texture=function(id, tileSize) { // 2 overloads
 	/*
@@ -129,9 +129,9 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this.getFPS=function() { return this._fps; }
 	this.setFPS=function(fps) {
 		if(typeof fps!='number') throw (this.id+': setFPS(fps) parameter "fps" must be a number; got a typeof('+fps+')=='+typeof fps); // DEBUG
-		var fpsMin=8;
+		var fpsMax=125;
 		this._fps=fps;
-		if(this._fps<fpsMin) this._fps=fpsMin;
+		if(fpsMax<this._fps) this._fps=fpsMax;
 		this._fpsFlat=1000/this._fps;
 	}
 
@@ -194,11 +194,12 @@ var Texture=function(id, tileSize) { // 2 overloads
 		this._lastSheetPos=this._getSheetPos();
 	}
 
-	// This steps in the animation
+	// This steps in the animation & returns the number of steps taken
 	this.step=function() {
-		if(this.pause) return;
+		if(this.pause) return 0;
 
 		var step=false; // Whether to step in the animation
+		var updateCount=0;
 
 		if(this.loop) { // In looped mode, always step
 			step=true;
@@ -208,19 +209,22 @@ var Texture=function(id, tileSize) { // 2 overloads
 
 		if(step) {
 			if(0<this._stepped) console.log(this.id+' stepped '+(this._stepped+1)+' times since last draw.'); // DEBUG
-			if(this._frameTimeMax<=(++this._frameTime)) { // Makes a frame last some amount of time
-				this._frameTime=0;
-
+			var ratio=this._fps/g_fpsEngine;
+			this._frameTime+=ratio;
+			while(1<=this._frameTime) { // If lagging, step more
 				if(this.reverse) { // In reverse, if (frame<0), restart animation
 					if((--this._frame)<0) this._frame=this._frameCount-1;
 				} else { // Normally, if (frameCount<frame), restart animation
 					if(this._frameCount<=(++this._frame)) this._frame=0;
 				}
+				++updateCount;
+				this._frameTime-=1;
 			}
 			this._stepped++; // DEBUG
 		}
 
 		this._lastSheetPos=this._getSheetPos();
+		return updateCount;
 	}
 
 	// Draws to canvas
