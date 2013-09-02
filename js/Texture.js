@@ -47,6 +47,45 @@ var Texture=function(id) {
 	/*
 			Public methods
 	*/
+	// Sets the size of the tiles & calculates how many frames there are
+	this.refreshProps=function() {
+		// Detect dimensions
+		if(typeof (img.width)!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
+		if(typeof (img.width)!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
+		this.size.x=img.width;
+		this.size.y=img.height;
+
+		// Correct tile size
+		if(this.tileSize.x<=0||this.size.x<this.tileSize.x) this.tileSize.x=this.size.x;
+		if(this.tileSize.y<=0||this.size.y<this.tileSize.y) this.tileSize.y=this.size.y;
+
+		// Check if tiled or static image
+		if(this.tileSize.x!=this.size.x||this.tileSize.y!=this.size.y) {
+			this._frame=0;
+			this._frameTime=0;
+			this._frameCount=Math.floor(this.size.x/this.tileSize.x);
+
+			this._alt=0;
+			this._altCount=Math.floor(this.size.x/this.tileSize.x);
+
+			console.log('Texture('+this.id+') :: Loaded animated texture'); // DEBUG
+		} else {
+			this._frame=0;
+			this._frameTime=0;
+			this._frameCount=1;
+
+			this._alt=0;
+			this._altCount=1;
+
+			this.pause=true; // Dont even think about animating a static texture
+
+			console.log('Texture('+this.id+') :: Loaded static texture'); // DEBUG
+		}
+
+		this.mid.x=this.size.x/2;
+		this.mid.y=this.size.y/2;
+	}
+
 	// Set/Get FPS
 	this.getFPS=function() { return this._fps; }
 	this.setFPS=function(fps) {
