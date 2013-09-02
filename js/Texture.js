@@ -149,6 +149,42 @@ var Texture=function(id, tileSize) { // 2 overloads
 		this._alt=this._getAngleIndex(angle);
 	}
 
+	// Face the sprite in a direction
+	this.face=function(pos) { // 1 overload
+		// DEBUG: Check position
+		if(typeof pos=='number') { // DEBUG
+			if(typeof angle!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		} else { // DEBUG
+			if(typeof pos!='object') throw (this.id+'": face(pos) pos must take an XY struct'); // DEBUG
+			if(typeof pos.x!='number') throw (this.id+'": face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+			if(typeof pos.y!='number') throw (this.id+'": face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		} // DEBUG
+		// DEBUG
+		if(typeof pos=='number') { // face(angle)
+			this._angle=pos;
+			this._alt=this._getAngleIndex(pos);
+		} else { // face(x, y)
+			var destAng=0;
+			pos.x-=this.x;
+			pos.y-=this.y;
+
+			if(pos.x!=0||pos.y!=0) {
+				if(pos.y==0) {
+					destAng=Math.PI/2;
+					if(pos.x<0) destAng+=Math.PI;
+				} else {
+					destAng=Math.atan(pos.x/pos.y);
+					if(pos.y<0) destAng+=Math.PI;
+				}
+				destAng+=Math.PI*3/2; // Prevents negative values
+				destAng%=Math.PI*2;
+
+				this._angle=destAng;
+				this._alt=this._getAngleIndex(destAng);
+			}
+		}
+	}
+
 
 
 	/*
