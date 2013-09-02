@@ -67,8 +67,8 @@ var Texture=function(id) {
 	// Sets the size of the tiles & calculates how many frames there are
 	this.refreshProps=function() {
 		// Detect dimensions
-		if(typeof (img.width)!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
-		if(typeof (img.width)!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
+		if(typeof img.width!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
+		if(typeof img.width!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
 		this.size.x=img.width;
 		this.size.y=img.height;
 
