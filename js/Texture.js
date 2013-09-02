@@ -144,6 +144,17 @@ var Texture=function(id, tileSize) { // 2 overloads
 	/*
 			Private methods
 	*/
+	// Return an index from the angle
+	this._getAngleIndex=function(angle) {
+		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		// DEBUG: Catch out of bound angles
+		if(angle<0) throw (this.id+' call to _getAngleIndex('+angle+'), angle < 0'); // DEBUG
+		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex('+angle+'), 2π < angle'); // DEBUG
+		// DEBUG
+		angle=-angle+Math.PI*5/2;
+		return Math.round(angle/(Math.PI*2/this._altCount))%this._altCount;
+	}
+
 
 
 	// Constructor
