@@ -185,6 +185,35 @@ var Texture=function(id, tileSize) { // 2 overloads
 		}
 	}
 
+	// This steps in the animation
+	this.step=function() {
+		if(this.pause) return;
+
+		var step=false; // Whether to step in the animation
+
+		if(this.loop) { // In looped mode, always step
+			step=true;
+		} else { // In non-looped, only step if not the end of the animation
+			if(!this.isEnd()) step=true;
+		}
+
+		if(step) {
+			if(0<this._stepped) console.log(this.id+' stepped '+(this._stepped+1)+' times since last draw.'); // DEBUG
+			if(this._frameTimeMax<=(++this._frameTime)) { // Makes a frame last some amount of time
+				this._frameTime=0;
+
+				if(this.reverse) { // In reverse, if (frame<0), restart animation
+					if((--this._frame)<0) this._frame=this._frameCount-1;
+				} else { // Normally, if (frameCount<frame), restart animation
+					if(this._frameCount<=(++this._frame)) this._frame=0;
+				}
+			}
+			this._stepped++; // DEBUG
+		}
+
+		this._lastSheetPos=this._getSheetPos();
+	}
+
 	// Draws to canvas
 	this.draw=function(ctx, pos) {
 		// DEBUG: Check canvas context
