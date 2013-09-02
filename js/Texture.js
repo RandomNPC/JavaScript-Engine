@@ -139,6 +139,16 @@ var Texture=function(id, tileSize) { // 2 overloads
 		return false;
 	}
 
+	this.getAng=function() {
+		return this._angle;
+	}
+	this.setAng=function(angle) {
+		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
+
+		this._angle=angle;
+		this._alt=this._getAngleIndex(angle);
+	}
+
 
 
 	/*
