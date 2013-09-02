@@ -113,6 +113,20 @@ var Texture=function(id) {
 		this._fpsFlat=1000/this._fps;
 	}
 
+	// True if the animation is not looped & the end is reached
+	this.isEnd=function() {
+		if(!this.loop) {
+			if(this.reverse) {
+				if(this._frame==0) return true;
+			} else {
+				if(this._frame+1==this._frameCount) return true;
+			}
+		}
+		return false;
+	}
+
+
+
 	/*
 			Private methods
 	*/
