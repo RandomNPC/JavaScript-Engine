@@ -29,13 +29,16 @@ var Texture=function(id) {
 	/*
 			Private vars
 	*/
-	this._fps=g_FPS;         // < FPS of the animation
-	this._fpsFlat=1000/g_FPS;// < Flattened is already divided with 1000
+	this._fps=g_fpsTexture;       // FPS of the animation
+	this._fpsFlat=1000/this._fps; // Flattened means already divided with 1000
+
 	this._frame=0;           // < Current frame of an animation
 	this._frameCount=0;      // < Number of frames in an animation
 	this._frameTime=0;       // < Current time on a frame
+
 	this._alt=0;             // < Alternate views [different angles]
 	this._altCount=0;        // < Count of alt views
+
 	this._angle=0;           // < Current angle
 
 	this._lastSheetPos={ u: 0, v: 0 };
@@ -67,10 +70,10 @@ var Texture=function(id) {
 	// Sets the size of the tiles & calculates how many frames there are
 	this.refreshProps=function() {
 		// Detect dimensions
-		if(typeof img.width!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
-		if(typeof img.width!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
-		this.size.x=img.width;
-		this.size.y=img.height;
+		if(typeof this.img.width!='number') throw ('Image "'+id+'" width could not be detected'); // DEBUG
+		if(typeof this.img.width!='number') throw ('Image "'+id+'" height could not be detected'); // DEBUG
+		this.size.x=this.img.width;
+		this.size.y=this.img.height;
 
 		// Correct tile size
 		if(this.tileSize.x<=0||this.size.x<this.tileSize.x) this.tileSize.x=this.size.x;
