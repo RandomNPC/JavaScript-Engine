@@ -72,11 +72,11 @@ var Texture=function(id, tileSize) { // 2 overloads
 			Public methods
 	*/
 	this.Texture=function(id, tileSize) { // Constructor; 1 overload
-		if(id==undefined) { // DEBUG
+		if(id==undefined) {
 			console.log('Texture() :: No ID given, not constructing'); // DEBUG
-			return;          // DEBUG
-		}                   // DEBUG
-		// DEBUG
+			return;
+		}
+
 		if(tileSize!=undefined) { // Texture(id, tileSize)
 			if(typeof tileSize!='object') throw (this.id+'": Texture(ctx, tileSize) tileSize must take an XY struct'); // DEBUG
 			if(typeof tileSize.x!='number') throw (this.id+'": Texture(ctx, tileSize) parameter "tileSize.x" must be a number; got a typeof('+tileSize.x+')=='+typeof tileSize.x); // DEBUG
