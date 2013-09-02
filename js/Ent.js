@@ -40,4 +40,14 @@ var Ent=function(id) {
 
 
 
+	/*
+			Public methods
+	*/
+	this.Ent=function() {
+	}
+
+
+
+	// Constructor
+	this.Ent();
 };
