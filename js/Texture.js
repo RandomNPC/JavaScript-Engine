@@ -44,4 +44,22 @@ var Texture=function(id) {
 
 
 
+	/*
+			Public methods
+	*/
+	// Set/Get FPS
+	this.getFPS=function() { return this._fps; }
+	this.setFPS=function(fps) {
+		if(typeof fps!='number') throw (this.id+': setFPS(fps) parameter "fps" must be a number; got a typeof('+fps+')=='+typeof fps); // DEBUG
+		var fpsMin=8;
+		this._fps=fps;
+		if(this._fps<fpsMin) this._fps=fpsMin;
+		this._fpsFlat=1000/this._fps;
+	}
+
+	/*
+			Private methods
+	*/
+
+
 };
