@@ -47,6 +47,23 @@ var Texture=function(id) {
 	/*
 			Public methods
 	*/
+	this.Texture=function(id) { // Constructor
+		if(id==undefined) { // DEBUG
+			console.log('Texture() :: No ID given, not constructing'); // DEBUG
+			return;          // DEBUG
+		}                   // DEBUG
+		this.id=id;
+		this.img=document.getElementById(id);
+
+		if(this.img!=null) { // Good image
+			this.refreshProps();
+		} else { // Error during load
+			var idTemp=this.id;
+			this.id=null;
+			throw ('ID "'+idTemp+'" not found, not initializing'); // DEBUG
+		}
+	}
+
 	// Sets the size of the tiles & calculates how many frames there are
 	this.refreshProps=function() {
 		// Detect dimensions
@@ -101,4 +118,6 @@ var Texture=function(id) {
 	*/
 
 
+	// Constructor
+	this.Texture(id);
 };
