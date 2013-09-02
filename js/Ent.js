@@ -46,6 +46,17 @@ var Ent=function(id) {
 	this.Ent=function() {
 	}
 
+	// Texture management
+	this.addTexture=function(id, tileSize) { // 1 overload
+		if(id==undefined) { // DEBUG
+			console.log('addTexture() :: No ID given, not adding texture'); // DEBUG
+			return;          // DEBUG
+		}                   // DEBUG
+		// DEBUG
+		this.textures.push(new Texture(id, tileSize));
+	}
+	this.delTexture=function(i) { if(0<i&&i<this.textures.length) this.textures.splice(i, 1); }
+
 
 
 	// Constructor
