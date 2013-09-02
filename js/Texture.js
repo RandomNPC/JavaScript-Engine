@@ -7,6 +7,19 @@
 	Textures are unaware of the surroundings, so position, where 
 		to draw, hit boxes, & even part of the frame rate MUST
 		be handled outside.
+
+	Static textures are defined as expected.  Make a new Texture
+		giving it the ID of the image.  All of the animation props
+		will be skipped.
+			var wall=new function(id); // Definition
+			var wall=new function('nyanCat'); // Ex
+
+	Animated textures are defined like above, but with an additional
+		parameter, tileSize.  By changing the tileSize of a Texture
+		to a value smaller than the image size, the Texture becomes
+		animated.
+			var cat=new function(id, tileSize); // Definition
+			var cat=new function('nyanCat', {x:64, y:64}); // Ex
 */
 
 var g_fpsEngine=60; // FPS that the processing engine is set to [it affects the texture FPS]
