@@ -120,7 +120,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 			this._alt=0;
 			this._altCount=Math.floor(this.size.y/this.tileSize.y);
 
-			console.log('Texture('+this.id+') :: Loaded animated texture'); // DEBUG
+			console.log('Texture('+this.id+') :: Loaded animated texture\n > Texture.pause=true'); // DEBUG
 		} else {
 			this._frame=0;
 			this._frameTime=0;
