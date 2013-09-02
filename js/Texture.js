@@ -153,7 +153,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this.face=function(pos) { // 1 overload
 		// DEBUG: Check position
 		if(typeof pos=='number') { // DEBUG
-			if(typeof angle!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+			if(typeof pos!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
 		} else { // DEBUG
 			if(typeof pos!='object') throw (this.id+'": face(pos) pos must take an XY struct'); // DEBUG
 			if(typeof pos.x!='number') throw (this.id+'": face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
