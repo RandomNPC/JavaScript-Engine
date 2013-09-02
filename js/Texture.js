@@ -113,8 +113,8 @@ var Texture=function(id, tileSize) { // 2 overloads
 			console.log('Texture('+this.id+') :: Loaded static texture'); // DEBUG
 		}
 
-		this.mid.x=this.size.x/2;
-		this.mid.y=this.size.y/2;
+		this.mid.x=this.tileSize.x/2;
+		this.mid.y=this.tileSize.y/2;
 	}
 
 	// Set/Get FPS
