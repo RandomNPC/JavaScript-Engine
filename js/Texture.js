@@ -190,6 +190,14 @@ var Texture=function(id, tileSize) { // 2 overloads
 	/*
 			Private methods
 	*/
+	// Returns the position in the sprite sheet to load
+	//		the sprite from.  It has 2 parts:
+	//		 u = Frame of the animation [laid out horizontal]
+	//		 v = Alternate angles [laid out vertical]
+	this._getSheetPos=function() {
+		return { u: this.tileSize.x*this._frame, v: this.tileSize.y*this._alt };
+	}
+
 	// Return an index from the angle
 	this._getAngleIndex=function(angle) {
 		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
