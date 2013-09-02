@@ -1,5 +1,13 @@
-﻿//		Texture Object
+﻿/*
+			Texture Class
 
+	The Texture class stores & handles drawing & additionally have
+		the ability to load sprite sheets for animation.
+
+	Textures are unaware of the surroundings, so position, where 
+		to draw, hit boxes, & even part of the frame rate MUST
+		be handled outside.
+*/
 
 var g_fpsEngine=60; // FPS that the processing engine is set to [it affects the texture FPS]
 var g_fpsTexture=60; // Global FPS that all textures default to
