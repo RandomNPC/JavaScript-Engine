@@ -183,6 +183,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 				this._alt=this._getAngleIndex(destAng);
 			}
 		}
+		this._lastSheetPos=this._getSheetPos();
 	}
 
 	// This steps in the animation

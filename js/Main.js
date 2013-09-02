@@ -13,7 +13,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	cat=new Texture('nyanCat', { x: 64, y: 64 });
 	cat.face(5.5);
 	setInterval(function() {
-		cat.step();
+		//cat.step();
 		cat.draw(ctx, { x: 20, y: 20 });
 	}, 1000/60);
 };
