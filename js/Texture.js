@@ -185,6 +185,27 @@ var Texture=function(id, tileSize) { // 2 overloads
 		}
 	}
 
+	// Draws to canvas
+	this.draw=function(ctx, pos) {
+		// DEBUG: Check canvas context
+		if(ctx==undefined) throw (this.id+': draw(ctx, pos) context not passed'); // DEBUG
+		if(this.id==null) throw (this.id+': sprite not initialized'); // DEBUG
+		// DEBUG: Check position
+		if(typeof pos!='object') throw (this.id+'": draw(ctx, pos) pos must take an XY struct'); // DEBUG
+		if(typeof pos.x!='number') throw (this.id+'": draw(ctx, pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+		if(typeof pos.y!='number') throw (this.id+'": draw(ctx, pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		// DEBUG
+		this._stepped=0; // DEBUG
+		// DEBUG
+		if(!this.hide) ctx.drawImage(
+			this.img, // Image source
+			this._lastSheetPos.u, this._lastSheetPos.v, // Offset in sprite sheet [which tile to draw]
+			this.tileSize.x, this.tileSize.y, // Tile size
+			Math.round(pos.x)-this.mid.x, Math.round(pos.y)-this.mid.y, // Position to place it
+			this.tileSize.x, this.tileSize.y // Size to scale it to
+		);
+	}
+
 
 
 	/*
