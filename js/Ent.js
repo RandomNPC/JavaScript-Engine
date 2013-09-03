@@ -54,6 +54,26 @@ var Ent=function(id) {
 		}
 	}
 
+	// Drawing all textures, if not specified
+	//		draw(ctx)        = Draw all textures
+	//		draw(ctx, index) = Draws texture at some index
+	//		draw(ctx, id)    = Draw all textures of this id
+	this.draw=function(ctx, i) {
+		if(i==undefined) {
+			for(i=0; i<this.textures.length; ++i) this.textures[i].draw(ctx, this.pos);
+		} else if(typeof i=='number') {
+			this.textures[i].draw(ctx, this.pos);
+		} else if(typeof i=='string') {
+			//		TODO
+			//	Eventually make a mapping function
+			//	to avoid linear performance hits
+			var name=i;
+			for(i=0; i<this.textures.length; ++i) if(this.textures[i].id==name) this.textures[i].draw(ctx, this.pos);
+		} else { // DEBUG
+			throw (this.id+': draw(ctx, i) parameter "i" must be undefined [defaulted], a number, or string; got a typeof('+i+')=='+typeof i); // DEBUG
+		}
+	}
+
 	// Each call makes the entity move closer to a desired state, like
 	//		walking to a destination, facing a direction, 
 	this.step=function() {
@@ -77,7 +97,9 @@ var Ent=function(id) {
 	}
 	this.delTexture=function(i) { if(0<i&&i<this.textures.length) this.textures.splice(i, 1); }
 
+	// Movement
 
+	// Angles
 
 	// Constructor
 	this.Ent(id);
