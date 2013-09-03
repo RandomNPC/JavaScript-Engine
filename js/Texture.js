@@ -170,7 +170,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this.setAng=function(angle) {
 		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
 
-		this._angle=angle;
+		this._angle=angle%(2*Math.PI);
 		this._alt=this._getAngleIndex(angle);
 	}
 
@@ -179,34 +179,11 @@ var Texture=function(id, tileSize) { // 2 overloads
 		// DEBUG: Check position
 		if(typeof pos=='number') { // DEBUG
 			if(typeof pos!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
-		} else { // DEBUG
-			if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
-			if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
-			if(typeof pos.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
 		} // DEBUG
 		// DEBUG
 		if(typeof pos=='number') { // face(angle)
 			this._angle=pos;
 			this._alt=this._getAngleIndex(pos);
-		} else { // face(x, y)
-			var destAng=0;
-			pos.x-=this.x;
-			pos.y-=this.y;
-
-			if(pos.x!=0||pos.y!=0) {
-				if(pos.y==0) {
-					destAng=Math.PI/2;
-					if(pos.x<0) destAng+=Math.PI;
-				} else {
-					destAng=Math.atan(pos.x/pos.y);
-					if(pos.y<0) destAng+=Math.PI;
-				}
-				destAng+=Math.PI*3/2; // Prevents negative values
-				destAng%=Math.PI*2;
-
-				this._angle=destAng;
-				this._alt=this._getAngleIndex(destAng);
-			}
 		}
 		this._lastSheetPos=this._getSheetPos();
 		return this._angle;
@@ -295,14 +272,18 @@ var Texture=function(id, tileSize) { // 2 overloads
 	// TODO: Eventually make a table of number of views to index
 	this._getAngleIndex=function(angle) {
 		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
-		// DEBUG: Catch out of bound angles
-		if(angle<0) throw (this.id+' call to _getAngleIndex('+angle+'), angle < 0'); // DEBUG
-		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex('+angle+'), 2π < angle'); // DEBUG
-		// DEBUG
-		angle=-angle+Math.PI*5/2;
-		return Math.round(angle/(Math.PI*2/this._altCount))%this._altCount;
-	}
+		angle=Math.PI*5/2-angle;
 
+		angle%=Math.PI*2;
+		angle/=Math.PI*2;
+		angle*=this._altCount;
+		return Math.round(angle)%this._altCount;
+		//if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		//angle=((Math.PI*5/2-angle)%Math.PI*2)/Math.PI*2;
+		//angle/=this._altCount;
+		//return Math.round(angle)%this._altCount;
+		//return Math.round((angle/Math.PI*2)*this._altCount)%this._altCount;
+	}
 
 
 	// Constructor

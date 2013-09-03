@@ -15,12 +15,17 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	cat.addTexture('nyanCat', { x: 64, y: 64 });
 
 	cat._pos={ x: 100, y: 100 };
-	cat.face(5.9);
 
-	
+	g_fpsEngine=30;
 	setInterval(function() {
 		cat.move({ x: 200, y: 200 });
+		cat.face({ x: mouse.x, y: mouse.y });
 		cat.step();
 		cat.draw(ctx);
 	}, 1000/g_fpsEngine);
+
+	canvas.onmousemove=function(e) {
+		mouse.x=e.offsetX;
+		mouse.y=e.offsetY;
+	}
 };
