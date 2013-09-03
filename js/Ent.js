@@ -54,6 +54,18 @@ var Ent=function(id) {
 		}
 	}
 
+	// Each call makes the entity move closer to a desired state, like
+	//		walking to a destination, facing a direction, 
+	this.step=function() {
+		// angle smoothing
+
+		// check to turn 1st or move at the same time
+
+		// movement smoothing
+
+		for(i=0; i<this.textures.length; ++i) this.textures[i].step();
+	}
+
 	// Texture management
 	this.addTexture=function(id, tileSize) { // 1 overload
 		if(id==undefined) {
