@@ -86,6 +86,43 @@ var Ent=function(id) {
 
 
 	// Movement
+	this.move=function(pos) {
+		if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
+		if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+		if(typeof pos.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		// DEBUG
+		// Offsets
+		var cx, cy, moved, vel=1;
+		cx=(pos.x-this.pos.x);
+		cy=(pos.y-this.pos.y);
+		moved=(cx!=0||cy!=0);
+
+
+		// OLD MOVEMENT CONTROL
+		if(moved) {
+			if(this.idle) this.step(); // If animated only on movement
+
+			// Gonna have to do some math to make diagonal movement smooth
+			if(cx==0) {
+				this.vel.x=0;
+			} else {
+				this.vel.x=(cx<0?-1:1)*vel*Math.cos(Math.atan(cy/cx));
+				if(Math.abs(cx)<Math.abs(this.vel.x)) this.pos.x=x;
+				else this.pos.x+=this.vel.x;
+			}
+			if(cy==0) {
+				this.vel.y=0;
+			} else {
+				this.vel.y=(cy<0?-1:1)*Math.sqrt(vel*vel-this.vel.x*this.vel.x);
+				if(Math.abs(cy)<Math.abs(this.vel.y)) this.pos.y=y;
+				else this.pos.y+=this.vel.y;
+			}
+		}
+		//
+
+		return !moved; // Return true if destination reached
+	}
+
 
 	// Angles
 	this.face=function(pos) {
