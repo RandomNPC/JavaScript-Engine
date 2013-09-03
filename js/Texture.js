@@ -164,7 +164,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 
 	// Face the sprite in a direction
 	this.face=function(angle) {
-		if(typeof angle!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
+		if(typeof angle!='number') throw (this.id+': face(θ) parameter "θ" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
 		// DEBUG
 		this._alt=this._getAngleIndex(angle);
 		this._lastSheetPos=this._getSheetPos();
@@ -253,18 +253,13 @@ var Texture=function(id, tileSize) { // 2 overloads
 	// Return an index from the angle
 	// TODO: Eventually make a table of number of views to index
 	this._getAngleIndex=function(angle) {
-		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		if(typeof angle!='number') throw (this.id+': _getAngleIndex(θ) parameter "θ" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
 		angle=Math.PI*5/2-angle;
 
 		angle%=Math.PI*2;
 		angle/=Math.PI*2;
 		angle*=this._altCount;
 		return Math.round(angle)%this._altCount;
-		//if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
-		//angle=((Math.PI*5/2-angle)%Math.PI*2)/Math.PI*2;
-		//angle/=this._altCount;
-		//return Math.round(angle)%this._altCount;
-		//return Math.round((angle/Math.PI*2)*this._altCount)%this._altCount;
 	}
 
 

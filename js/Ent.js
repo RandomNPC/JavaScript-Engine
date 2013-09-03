@@ -169,7 +169,7 @@ var Ent=function(id) {
 			if(typeof angle.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+angle.y+')=='+typeof angle.y); // DEBUG
 		} // DEBUG
 		// DEBUG
-		if(typeof angle=='number') { // turn(angle)
+		if(typeof angle=='number') { // turn(θ)
 			this._angle=angle;
 		} else {
 			this._angle=this.angleOf(angle);
@@ -219,7 +219,7 @@ var Ent=function(id) {
 		var destAng=0, finalDest=0;
 
 		this._omega=this._omegaMax; // temp until new code
-		if(typeof angle=='number') { // turn(angle)
+		if(typeof angle=='number') { // turn(θ)
 			destAng=angle;
 		}
 		finalDest=destAng;
