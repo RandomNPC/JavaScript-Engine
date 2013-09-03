@@ -134,6 +134,34 @@ var Ent=function(id) {
 
 
 	// Angles
+	this.getAngle=function() {
+		return this._angle;
+	}
+	this.setAngle=function(angle, omega, omegaMax, alpha, alphaMax, alphaDamp) { // 5 overloads
+		if(angle==undefined) throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "θ" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		if(typeof angle!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "θ" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
+		this._angle=angle;
+		if(omega!=undefined) {
+			if(typeof omega!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "ω" must be a number; got a typeof('+omega+')=='+typeof omega); // DEBUG
+			this._omega=omega;
+			if(omegaMax!=undefined) {
+				this._omegaMax=omegaMax;
+				if(typeof omegaMax!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "ωMax" must be a number; got a typeof('+omegaMax+')=='+typeof omegaMax); // DEBUG
+				if(alpha!=undefined) {
+					if(typeof alpha!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "α" must be a number; got a typeof('+alpha+')=='+typeof alpha); // DEBUG
+					if(alphaMax!=undefined) {
+						this._alpha=alpha;
+						if(typeof alphaMax!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "αMax" must be a number; got a typeof('+alphaMax+')=='+typeof alphaMax); // DEBUG
+						this._alphaMax=alphaMax;
+						if(alphaDamp!=undefined) {
+							if(typeof alphaDamp!='number') throw (this.id+': setAngle(θ, ω, ωMax, α, αMax, αDamp) parameter "αDamp" must be a number; got a typeof('+alphaDamp+')=='+typeof alphaDamp); // DEBUG
+							this._alphaDamp=alphaDamp;
+						}
+					}
+				}
+			}
+		}
+	}
 
 	// Get the angle of a direction
 	this.angleOf=function(pos) {
