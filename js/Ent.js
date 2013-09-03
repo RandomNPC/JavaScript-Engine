@@ -30,11 +30,18 @@ var Ent=function(id) {
 			Private vars
 	*/
 	this._pos={ x: 0, y: 0 };
-	this._vel={ x: 0, y: 0, max: 5 };
-	this._accel={ x: 0, y: 0, max: 3, damp: 1 };
-	this._angle={ a: 0 };
-	this._omega={ o: 0, max: Math.PI/16 };
-	this._alpha={ a: 0, max: Math.PI/32, damp: 1 };
+	this._vel={ x: 0, y: 0 };
+	this._velMax=5;
+	this._accel={ x: 0, y: 0 };
+	this._accel=3;
+	this._accelDamp=1;
+
+	this._angle=0;
+	this._omega=0;
+	this._omegaMax=Math.PI/8;
+	this._alpha=0;
+	this._alphaMax=Math.PI/16;
+	this._alphaDamp=Math.PI/32;
 
 	this._pxm=g_pxm;           // px/m [pixels per meter]
 	this._pxmFlat=1/this._pxm; //    the entity moves at
@@ -130,7 +137,7 @@ var Ent=function(id) {
 
 	// Get the angle of a direction
 	this.angleOf=function(pos) {
-		if(typeof pos!='object') throw (this.id+': angleOf(pos) pos must take an XY struct or angle'); // DEBUG
+		if(typeof pos!='object') throw (this.id+': angleOf(pos) pos must take structs with angles'); // DEBUG
 		if(typeof pos.x!='number') throw (this.id+': angleOf(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
 		if(typeof pos.y!='number') throw (this.id+': angleOf(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
 		// DEBUG
@@ -156,7 +163,6 @@ var Ent=function(id) {
 	this.face=function(angle) {
 		// DEBUG: Check angle
 		if(typeof angle=='number') { // DEBUG
-			if(typeof angle!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
 		} else { // DEBUG
 			if(typeof angle!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
 			if(typeof angle.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+angle.x+')=='+typeof angle.x); // DEBUG
@@ -164,19 +170,18 @@ var Ent=function(id) {
 		} // DEBUG
 		// DEBUG
 		if(typeof angle=='number') { // turn(angle)
-			this._angle.a=angle;
+			this._angle=angle;
 		} else {
-			this._angle.a=this.angleOf(angle);
+			this._angle=this.angleOf(angle);
 		}
-		for(i=0; i<this.textures.length; ++i) this.textures[i].face(this._angle.a);
-		return this._angle.a;
+		for(i=0; i<this.textures.length; ++i) this.textures[i].face(this._angle);
+		return this._angle;
 	}
 
 	// Animate a turn towards a direction
 	this.turn=function(angle) {
 		// DEBUG: Check angle
 		if(typeof angle=='number') { // DEBUG
-			if(typeof angle!='number') throw (this.id+': turn(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
 		} else { // DEBUG
 			if(typeof angle!='object') throw (this.id+': turn(pos) pos must take an XY struct'); // DEBUG
 			if(typeof angle.x!='number') throw (this.id+': turn(pos) parameter "pos.x" must be a number; got a typeof('+angle.x+')=='+typeof angle.x); // DEBUG
@@ -213,29 +218,29 @@ var Ent=function(id) {
 		// DEBUG
 		var destAng=0, finalDest=0;
 
-		this._omega.o=this._omega.max; // temp until new code
+		this._omega=this._omegaMax; // temp until new code
 		if(typeof angle=='number') { // turn(angle)
 			destAng=angle;
 		}
 		finalDest=destAng;
 
-		var diff=destAng-this._angle.a; // Get the difference in angle
+		var diff=destAng-this._angle; // Get the difference in angle
 		if(Math.abs(diff.toFixed(8))!=0) {
-			console.log(this._angle.a)
+			console.log(this._angle)
 			if(diff<0) diff+=Math.PI*2;
 
-			if(destAng<this._angle.a) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
+			if(destAng<this._angle) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
 			if(Math.PI<diff) diff-=Math.PI*2; // Adjust to make it from -π to π
 
-			if(Math.abs(diff)<=this._omega.o) this._angle.a=destAng; // Snap to destination
-			else this._angle.a+=diff<0?-this._omega.o:this._omega.o; // Turn towards the destination
+			if(Math.abs(diff)<=this._omega) this._angle=destAng; // Snap to destination
+			else this._angle+=diff<0?-this._omega:this._omega; // Turn towards the destination
 
-			this._angle.a=(this._angle.a+Math.PI*2)%(Math.PI*2);
-			for(var i=0; i<this.textures.length; ++i) this.textures[i].face(this._angle.a);
+			this._angle=(this._angle+Math.PI*2)%(Math.PI*2);
+			for(var i=0; i<this.textures.length; ++i) this.textures[i].face(this._angle);
 		}
 
 		// Return false if not facing the target
-		return (this._angle.a.toFixed(8)==finalDest.toFixed(8));
+		return (this._angle.toFixed(8)==finalDest.toFixed(8));
 	}
 
 	// Constructor
