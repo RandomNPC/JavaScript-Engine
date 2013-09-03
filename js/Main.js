@@ -11,11 +11,16 @@ window.onload=function() { // Makes sure the website is loaded before running co
 
 
 	cat=new Ent('ent_nyancat');
+	cat.addTexture('nyanCat');
 	cat.addTexture('nyanCat', { x: 64, y: 64 });
 
-	cat.face(5.5);
+	cat._pos={ x: 100, y: 100 };
+	cat.face(5.9);
+
+	
 	setInterval(function() {
+		cat.move({ x: 200, y: 200 });
 		cat.step();
-		cat.draw(ctx, { x: 20, y: 20 });
+		cat.draw(ctx);
 	}, 1000/g_fpsEngine);
 };
