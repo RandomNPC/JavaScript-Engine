@@ -217,8 +217,8 @@ var Texture=function(id, tileSize) { // 2 overloads
 		this._stepped=0; // DEBUG
 		// DEBUG
 		if(!this.hide) {
-			var mx=(Math.round(pos.x)-this.mid.x*this.scale.x);
-			var my=(Math.round(pos.y)-this.mid.y*this.scale.y);
+			var mx=((pos.x)-this.mid.x*this.scale.x); // Maybe round pos?
+			var my=((pos.y)-this.mid.y*this.scale.y);
 			if(this.static) {
 				ctx.drawImage(
 					this.img, // Image source
