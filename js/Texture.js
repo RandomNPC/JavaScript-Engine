@@ -78,9 +78,9 @@ var Texture=function(id, tileSize) { // 2 overloads
 		}
 
 		if(tileSize!=undefined) { // Texture(id, tileSize)
-			if(typeof tileSize!='object') throw (this.id+'": Texture(ctx, tileSize) tileSize must take an XY struct'); // DEBUG
-			if(typeof tileSize.x!='number') throw (this.id+'": Texture(ctx, tileSize) parameter "tileSize.x" must be a number; got a typeof('+tileSize.x+')=='+typeof tileSize.x); // DEBUG
-			if(typeof tileSize.y!='number') throw (this.id+'": Texture(ctx, tileSize) parameter "tileSize.y" must be a number; got a typeof('+tileSize.y+')=='+typeof tileSize.y); // DEBUG
+			if(typeof tileSize!='object') throw (this.id+': Texture(ctx, tileSize) tileSize must take an XY struct'); // DEBUG
+			if(typeof tileSize.x!='number') throw (this.id+': Texture(ctx, tileSize) parameter "tileSize.x" must be a number; got a typeof('+tileSize.x+')=='+typeof tileSize.x); // DEBUG
+			if(typeof tileSize.y!='number') throw (this.id+': Texture(ctx, tileSize) parameter "tileSize.y" must be a number; got a typeof('+tileSize.y+')=='+typeof tileSize.y); // DEBUG
 			//DEBUG
 			this.tileSize.x=tileSize.x;
 			this.tileSize.y=tileSize.y;
@@ -176,9 +176,9 @@ var Texture=function(id, tileSize) { // 2 overloads
 		if(typeof pos=='number') { // DEBUG
 			if(typeof pos!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
 		} else { // DEBUG
-			if(typeof pos!='object') throw (this.id+'": face(pos) pos must take an XY struct'); // DEBUG
-			if(typeof pos.x!='number') throw (this.id+'": face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
-			if(typeof pos.y!='number') throw (this.id+'": face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+			if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
+			if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+			if(typeof pos.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
 		} // DEBUG
 		// DEBUG
 		if(typeof pos=='number') { // face(angle)
@@ -205,6 +205,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 			}
 		}
 		this._lastSheetPos=this._getSheetPos();
+		return this._angle;
 	}
 
 	// This steps in the animation & returns the number of steps taken
@@ -246,9 +247,9 @@ var Texture=function(id, tileSize) { // 2 overloads
 		if(ctx==undefined) throw (this.id+': draw(ctx, pos) context not passed'); // DEBUG
 		if(this.id==null) throw (this.id+': sprite not initialized'); // DEBUG
 		// DEBUG: Check position
-		if(typeof pos!='object') throw (this.id+'": draw(ctx, pos) pos must take an XY struct'); // DEBUG
-		if(typeof pos.x!='number') throw (this.id+'": draw(ctx, pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
-		if(typeof pos.y!='number') throw (this.id+'": draw(ctx, pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		if(typeof pos!='object') throw (this.id+': draw(ctx, pos) pos must take an XY struct'); // DEBUG
+		if(typeof pos.x!='number') throw (this.id+': draw(ctx, pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+		if(typeof pos.y!='number') throw (this.id+': draw(ctx, pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
 		// DEBUG
 		this._stepped=0; // DEBUG
 		// DEBUG
