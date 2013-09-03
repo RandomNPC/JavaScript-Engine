@@ -292,6 +292,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 	}
 
 	// Return an index from the angle
+	// TODO: Eventually make a table of number of views to index
 	this._getAngleIndex=function(angle) {
 		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle); // DEBUG
 		// DEBUG: Catch out of bound angles
