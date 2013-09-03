@@ -46,7 +46,12 @@ var Ent=function(id) {
 	/*
 			Public methods
 	*/
-	this.Ent=function() {
+	this.Ent=function(id, textures) {
+		this.id=id;
+		console.log(textures)
+		if(textures!=undefined) {
+			this.textures=textures;
+		}
 	}
 
 	// Texture management
@@ -63,5 +68,5 @@ var Ent=function(id) {
 
 
 	// Constructor
-	this.Ent();
+	this.Ent(id);
 };
