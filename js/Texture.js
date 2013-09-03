@@ -61,8 +61,6 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this._alt=0;             // < Alternate views [different angles]
 	this._altCount=0;        // < Count of alt views
 
-	this._angle=0;           // < Current angle
-
 	this._static=false;      // Static or animated texture
 	this._lastSheetPos={ u: 0, v: 0 };
 
@@ -164,29 +162,13 @@ var Texture=function(id, tileSize) { // 2 overloads
 		return false;
 	}
 
-	this.getAng=function() {
-		return this._angle;
-	}
-	this.setAng=function(angle) {
-		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
-
-		this._angle=angle%(2*Math.PI);
-		this._alt=this._getAngleIndex(angle);
-	}
-
 	// Face the sprite in a direction
-	this.face=function(pos) { // 1 overload
-		// DEBUG: Check position
-		if(typeof pos=='number') { // DEBUG
-			if(typeof pos!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
-		} // DEBUG
+	this.face=function(angle) {
+		if(typeof angle!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
 		// DEBUG
-		if(typeof pos=='number') { // face(angle)
-			this._angle=pos;
-			this._alt=this._getAngleIndex(pos);
-		}
+		this._alt=this._getAngleIndex(angle);
 		this._lastSheetPos=this._getSheetPos();
-		return this._angle;
+		return angle;
 	}
 
 	// This steps in the animation & returns the number of steps taken
