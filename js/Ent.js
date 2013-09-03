@@ -18,6 +18,9 @@ var Ent=function(id) {
 	this.textures=new Array();
 
 	this.pos={ x: 0, y: 0 };
+	this.vel={ x: 0, y: 0, max: 5 };
+	this.accel={ x: 0, y: 0, max: 3, damp: 1 };
+
 	this.mid={ x: undefined, y: undefined };
 	this.hitbox=32; // Defined as a radius or an XY struct
 
@@ -30,8 +33,6 @@ var Ent=function(id) {
 			Private vars
 	*/
 	this._angle=0;
-	this._vel=0;
-	this._accel=0;
 
 	this._pxm=g_pxm;           // px/m [pixels per meter]
 	this._pxmFlat=1/this._pxm; //    the entity moves at
@@ -54,6 +55,7 @@ var Ent=function(id) {
 			this.textures=textures;
 		}
 	}
+
 
 	// Drawing all textures, if not specified
 	//		draw(ctx)        = Draw all textures
@@ -87,6 +89,7 @@ var Ent=function(id) {
 		for(i=0; i<this.textures.length; ++i) this.textures[i].step();
 	}
 
+
 	// Texture management
 	this.addTexture=function(id, tileSize) { // 1 overload
 		if(id==undefined) {
@@ -97,6 +100,7 @@ var Ent=function(id) {
 		this.textures.push(new Texture(id, tileSize));
 	}
 	this.delTexture=function(i) { if(0<i&&i<this.textures.length) this.textures.splice(i, 1); }
+
 
 	// Movement
 
