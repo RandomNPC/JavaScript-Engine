@@ -18,6 +18,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 
 	g_fpsEngine=30;
 	setInterval(function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		cat.move({ x: 200, y: 200 });
 		cat.face({ x: mouse.x, y: mouse.y });
 		cat.step();
