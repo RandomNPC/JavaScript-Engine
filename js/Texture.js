@@ -33,6 +33,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 	this.img=null;
 
 	this.size={ x: 0, y: 0 }; // Size of image
+	this.scale={ x: 1, y: 1 }; // scale to this size [1=normal]
 	this.mid={ x: undefined, y: undefined }; // Mid point of the texture to center on when drawn
 
 	// Tile size [default: size of image]
@@ -62,6 +63,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 
 	this._angle=0;           // < Current angle
 
+	this._static=false;      // Static or animated texture
 	this._lastSheetPos={ u: 0, v: 0 };
 
 	this._stepped=0; // DEBUG: Help coders catch unecessary calls to step() before a draw()
@@ -120,6 +122,8 @@ var Texture=function(id, tileSize) { // 2 overloads
 			this._alt=0;
 			this._altCount=Math.floor(this.size.y/this.tileSize.y);
 
+			this.static=false;
+
 			console.log('Texture('+this.id+') :: Loaded animated texture\n > Texture.pause=true'); // DEBUG
 		} else {
 			this._frame=0;
@@ -129,7 +133,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 			this._alt=0;
 			this._altCount=1;
 
-			this.pause=true; // Dont even think about animating a static texture
+			this.static=true;
 
 			console.log('Texture('+this.id+') :: Loaded static texture'); // DEBUG
 		}
@@ -210,7 +214,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 
 	// This steps in the animation & returns the number of steps taken
 	this.step=function() {
-		if(this.pause) return 0;
+		if(this.static||this.pause) return 0;
 
 		var step=false; // Whether to step in the animation
 		var updateCount=0;
@@ -253,13 +257,25 @@ var Texture=function(id, tileSize) { // 2 overloads
 		// DEBUG
 		this._stepped=0; // DEBUG
 		// DEBUG
-		if(!this.hide) ctx.drawImage(
-			this.img, // Image source
-			this._lastSheetPos.u, this._lastSheetPos.v, // Offset in sprite sheet [which tile to draw]
-			this.tileSize.x, this.tileSize.y, // Tile size
-			Math.round(pos.x)-this.mid.x, Math.round(pos.y)-this.mid.y, // Position to place it
-			this.tileSize.x, this.tileSize.y // Size to scale it to
-		);
+		if(!this.hide) {
+			var mx=(Math.round(pos.x)-this.mid.x*this.scale.x);
+			var my=(Math.round(pos.y)-this.mid.y*this.scale.y);
+			if(this.static) {
+				ctx.drawImage(
+					this.img, // Image source
+					mx, my,   // Position to place it
+					this.size.x*this.scale.x, this.size.y*this.scale.y // Size to scale it to
+				);
+			} else {
+				ctx.drawImage(
+					this.img, // Image source
+					this._lastSheetPos.u, this._lastSheetPos.v, // Offset in sprite sheet [which tile to draw]
+					this.tileSize.x, this.tileSize.y, // Tile size
+					mx, my,   // Position to place it
+					this.tileSize.x*this.scale.x, this.tileSize.y*this.scale.y // Size to scale it to
+				);
+			}
+		}
 	}
 
 
