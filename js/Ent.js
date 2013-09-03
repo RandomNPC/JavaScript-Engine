@@ -29,6 +29,7 @@ var Ent=function(id) {
 	/*
 			Private vars
 	*/
+	this._angle=0;
 	this._vel=0;
 	this._accel=0;
 
@@ -100,6 +101,25 @@ var Ent=function(id) {
 	// Movement
 
 	// Angles
+	this.face=function(pos) {
+		// DEBUG: Check position
+		if(typeof pos=='number') { // DEBUG
+			if(typeof pos!='number') throw (this.id+': face(angle) parameter "angle" must be a number; got a typeof('+pos+')=='+typeof pos); // DEBUG
+		} else { // DEBUG
+			if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
+			if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+			if(typeof pos.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		} // DEBUG
+		// DEBUG
+		if(typeof pos=='number') { // face(angle)
+			this._angle=pos;
+			for(i=0; i<this.textures.length; ++i) this.textures[i].face(this._angle);
+		} else { // face(x, y)
+			if(0<this.textures.length) this._angle=this.textures[i].face(pos);
+			for(i=1; i<this.textures.length; ++i) this.textures[i].face(pos);
+		}
+		return this._angle;
+	}
 
 	// Constructor
 	this.Ent(id);
