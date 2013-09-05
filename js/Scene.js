@@ -60,8 +60,6 @@ var Scene=function(id) {
 		}
 	}
 	this.delEnt=function(id) {
-		console.log(this._entsArr);
-		console.log(this._entsMap);
 		if(typeof id!='number'&&typeof id!='string') throw (this.id+': delEnt(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
 		if(typeof id=='number') {
 		} else {
