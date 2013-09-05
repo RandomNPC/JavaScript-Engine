@@ -10,7 +10,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	ctx=canvas.getContext('2d');
 
 
-	cat=new Ent('ent_nyancat');
+	cat=new Entity('ent_nyancat');
 	cat.addTexture('nyanCat');
 	cat.addTexture('nyanCat', { x: 64, y: 64 });
 
