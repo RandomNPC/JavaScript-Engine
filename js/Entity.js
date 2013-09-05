@@ -10,7 +10,7 @@
 
 var g_pxm=32; // Global definition of a meter
 
-var Ent=function(id) {
+var Entity=function(id) {
 	/*
 		Public vars
 	*/
@@ -57,7 +57,7 @@ var Ent=function(id) {
 	/*
 			Public methods
 	*/
-	this.Ent=function(id, textures) {
+	this.Entity=function(id, textures) {
 		this.id=id;
 		console.log(textures)
 		if(textures!=undefined) {
@@ -272,5 +272,5 @@ var Ent=function(id) {
 	}
 
 	// Constructor
-	this.Ent(id);
+	this.Entity(id);
 };
