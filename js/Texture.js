@@ -122,7 +122,7 @@ var Texture=function(id, tileSize) { // 2 overloads
 
 			this.static=false;
 
-			console.log('Texture('+this.id+') :: Loaded animated texture\n > Texture.pause=true'); // DEBUG
+			console.log('Texture('+this.id+') :: Loaded animated texture'); // DEBUG
 		} else {
 			this._frame=0;
 			this._frameTime=0;
