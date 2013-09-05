@@ -15,8 +15,6 @@ var Entity=function(id) {
 		Public vars
 	*/
 	this.id='';
-	this.textures=new Array(); // TODO: Make private once mapping is done
-
 
 	this.mid={ x: undefined, y: undefined };
 	this.hitbox=32; // Defined as a radius or an XY struct
@@ -29,6 +27,9 @@ var Entity=function(id) {
 	/*
 			Private vars
 	*/
+	this._texArr=[];
+	this._texMap={};
+
 	this._pos={ x: 0, y: 0 };
 	this._vel={ x: 0, y: 0 };
 	this._velMax=5;
@@ -82,15 +83,20 @@ var Entity=function(id) {
 
 
 	// Texture management
-	this.addTexture=function(id, tileSize) { // 1 overload
-		if(id==undefined) {
-			console.log('addTexture() :: No ID given, not adding texture'); // DEBUG
-			return;
-		}
-
-		this.textures.push(new Texture(id, tileSize));
+	this.addTex=function(texture) {
+		if(typeof texture!='object') throw (this.id+': addTex(texture) parameter "texture" must be a class Entity'); // DEBUG
+		var id=texture.id;
+		if(typeof id!='string') throw (this.id+': addTex(texture) parameter "texture.id" must be a string; got a typeof('+id+')=='+typeof id); // DEBUG
+		mapAdd(this._texArr, this._texMap, texture, function(obj) { return obj.id; });
 	}
-	this.delTexture=function(i) { if(0<i&&i<this.textures.length) this.textures.splice(i, 1); }
+	this.getTex=function(id) {
+		if(typeof id!='number'&&typeof id!='string') throw (this.id+': getTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
+		return mapGet(this._texArr, this._texMap, id);
+	}
+	this.delTex=function(id) {
+		if(typeof id!='number'&&typeof id!='string') throw (this.id+': delTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
+		mapDel(this._texArr, this._texMap, id, function(obj) { return obj.id; });
+	}
 
 
 	// Movement
