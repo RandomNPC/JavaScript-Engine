@@ -59,7 +59,6 @@ var Entity=function(id) {
 	*/
 	this.Entity=function(id, textures) {
 		this.id=id;
-		console.log(textures)
 		if(textures!=undefined) {
 			this.textures=textures;
 		}
