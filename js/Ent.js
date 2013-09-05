@@ -15,7 +15,7 @@ var Ent=function(id) {
 		Public vars
 	*/
 	this.id='';
-	this.textures=new Array();
+	this.textures=new Array(); // TODO: Make private once mapping is done
 
 
 	this.mid={ x: undefined, y: undefined };
