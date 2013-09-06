@@ -36,7 +36,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 		cat.move({ x: 200, y: 200 });
 		cat.face({ x: mouse.x, y: mouse.y });
 		cat.step();
-		cat.draw(ctx);
+		s_field.draw(ctx);
 	}, 1000/g_fpsEngine);
 
 	canvas.onmousemove=function(e) {

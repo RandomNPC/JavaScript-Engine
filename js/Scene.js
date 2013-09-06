@@ -18,11 +18,7 @@ var Scene=function(id) {
 	this._entMap={};
 
 
-	this.Scene=function(id) {
-		if(id==undefined) id='';
-		this.id=id;
-
-	}
+	this.onStep=undefined;
 
 
 
@@ -35,6 +31,12 @@ var Scene=function(id) {
 	/*
 			Public methods
 	*/
+	this.Scene=function(id, onStepFunc) {
+		if(id==undefined) id='';
+		this.id=id;
+		this.onStep=onStepFunc;
+	}
+
 	this.addEnt=function(entity) {
 		if(typeof entity!='object') throw (this.id+': addEnt(entity) parameter "entity" must be a class Entity'); // DEBUG
 		var id=entity.id;
@@ -48,6 +50,19 @@ var Scene=function(id) {
 	this.delEnt=function(id) {
 		if(typeof id!='number'&&typeof id!='string') throw (this.id+': delEnt(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
 		mapDel(this._entArr, this._entMap, id, function(obj) { return obj.id; });
+	}
+
+	// Drawing
+	this.step=function() {
+		if(this.onStep!=undefined) this.onStep(); // Call user defined step 1st
+
+		// Extra stuff here?
+
+		for(i=0; i<this._entArr.length; ++i) this._entArr[i].step();
+	}
+
+	this.draw=function(ctx, offset) {
+		for(i=0; i<this._entArr.length; ++i) this._entArr[i].draw(ctx, offset);
 	}
 
 

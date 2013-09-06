@@ -23,6 +23,9 @@ var Entity=function(id) {
 	this.hide=false;
 
 
+	this.onStep=undefined;
+
+
 
 	/*
 			Private vars
@@ -58,48 +61,38 @@ var Entity=function(id) {
 	/*
 			Public methods
 	*/
-	this.Entity=function(id, textures) {
+	this.Entity=function(id, onStepFunc) {
 		this.id=id;
-		if(textures!=undefined) {
-			this._texArr=textures;
-		}
+		this.onStep=onStepFunc;
 	}
 
-
-	// Draw all textures
-	this.draw=function(ctx) { for(i=0; i<this._texArr.length; ++i) this._texArr[i].draw(ctx, this._pos); }
 
 	// Each call makes the entity move closer to a desired state, like
 	//		walking to a destination, facing a direction, 
 	this.step=function() {
-		// angle smoothing
+		if(this.onStep!=undefined) this.onStep(); // Call user defined step 1st
 
-		// check to turn 1st or move at the same time
-
-		// movement smoothing
+		// Extra stuff here?
 
 		for(i=0; i<this._texArr.length; ++i) this._texArr[i].step();
 	}
 
-
-	// Texture management
-	this.addTex=function(texture) {
-		if(typeof texture!='object') throw (this.id+': addTex(texture) parameter "texture" must be a class Texture'); // DEBUG
-		var id=texture.id;
-		if(typeof id!='string') throw (this.id+': addTex(texture) parameter "texture.id" must be a string; got a typeof('+id+')=='+typeof id); // DEBUG
-		mapAdd(this._texArr, this._texMap, texture, function(obj) { return obj.id; });
-	}
-	this.getTex=function(id) {
-		if(typeof id!='number'&&typeof id!='string') throw (this.id+': getTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
-		return mapGet(this._texArr, this._texMap, id);
-	}
-	this.delTex=function(id) {
-		if(typeof id!='number'&&typeof id!='string') throw (this.id+': delTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
-		mapDel(this._texArr, this._texMap, id, function(obj) { return obj.id; });
+	// Draw all textures
+	this.draw=function(ctx, offset) {
+		for(i=0; i<this._texArr.length; ++i) {
+			if(offset==undefined) this._texArr[i].draw(ctx, this._pos);
+			else this._texArr[i].draw(ctx, { x: this._pos.x+offset.x, y: this._pos.y+offset.y });
+		}
 	}
 
 
 	// Movement
+	this.translate=function(pos) {
+		if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
+		if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
+		if(typeof pos.y!='number') throw (this.id+': face(pos) parameter "pos.y" must be a number; got a typeof('+pos.y+')=='+typeof pos.y); // DEBUG
+		this.pos=pos;
+	}
 	this.move=function(pos) {
 		if(typeof pos!='object') throw (this.id+': face(pos) pos must take an XY struct'); // DEBUG
 		if(typeof pos.x!='number') throw (this.id+': face(pos) parameter "pos.x" must be a number; got a typeof('+pos.x+')=='+typeof pos.x); // DEBUG
@@ -112,7 +105,15 @@ var Entity=function(id) {
 		moved=(cx!=0||cy!=0);
 
 
-		// OLD MOVEMENT CONTROL
+
+		// angle smoothing?
+		// check to turn 1st or move at the same time
+
+		// movement smoothing
+
+
+
+		// OLD MOVEMENT SMOOTHING
 		if(moved) {
 			if(this.idle) this.step(); // If animated only on movement
 
@@ -275,6 +276,24 @@ var Entity=function(id) {
 		// Return false if not facing the target
 		return (this._angle.toFixed(8)==finalDest.toFixed(8));
 	}
+
+
+	// Texture management
+	this.addTex=function(texture) {
+		if(typeof texture!='object') throw (this.id+': addTex(texture) parameter "texture" must be a class Texture'); // DEBUG
+		var id=texture.id;
+		if(typeof id!='string') throw (this.id+': addTex(texture) parameter "texture.id" must be a string; got a typeof('+id+')=='+typeof id); // DEBUG
+		mapAdd(this._texArr, this._texMap, texture, function(obj) { return obj.id; });
+	}
+	this.getTex=function(id) {
+		if(typeof id!='number'&&typeof id!='string') throw (this.id+': getTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
+		return mapGet(this._texArr, this._texMap, id);
+	}
+	this.delTex=function(id) {
+		if(typeof id!='number'&&typeof id!='string') throw (this.id+': delTex(id) parameter "id" must be a number or string; got a typeof('+id+')=='+typeof id); // DEBUG
+		mapDel(this._texArr, this._texMap, id, function(obj) { return obj.id; });
+	}
+
 
 	// Constructor
 	this.Entity(id);
